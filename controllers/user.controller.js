@@ -68,9 +68,12 @@ module.exports.login = async (req, res) => {
                     })
                 }
                 else {
+                    const token = checkUser.token
+                    res.cookie("token", token)
                     res.json({
                         code: 200,
-                        message: "Đăng nhập thành côbng"
+                        message: "Đăng nhập thành côbng",
+                        token: token
                     })
                 }
             }
@@ -163,4 +166,29 @@ module.exports.resetPassword = async(req,res)=>{
         code:200,
         message:"đỏi mật khảu thành công"
     })
+}
+module.exports.detail = async(req,res) =>{
+    res.json({
+        code:200,
+        message: "Tai khoan",
+        info: req.user
+    })
+}
+module.exports.listUser= async(req,res)=>{
+    const listUser = await User.find({
+        deleted:false
+    }).select("fullName email")
+    if(listUser){
+        res.json({
+            code: 200,
+            message:"Danh sach nguoi dung",
+            listUser: listUser
+        })
+    }
+    else{
+        res.json({
+            code:400,
+            message:"Khong co nguoi dung"
+        })
+    }
 }
