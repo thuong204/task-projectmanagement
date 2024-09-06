@@ -1,4 +1,5 @@
 const express = require("express")
+var cors = require('cors')
 const database = require("./config/database");
 const Task = require("./models/task.model")
 require("dotenv").config()
@@ -9,6 +10,7 @@ const routeApiver1 = require("./api/v1/routes/index.route")
 const bodyParser = require("body-parser")
 
 app.use(bodyParser.json())
+app.use(cors())
 
 database.connect()
 routeApiver1(app);
